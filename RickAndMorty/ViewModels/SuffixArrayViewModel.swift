@@ -20,7 +20,7 @@ class SuffixArrayViewModel: ObservableObject {
     @Published var allSuffixes: Array<(key: String, value: Int)> = []
     @Published var topSuffixes: Array<(key: String, value: Int)> = []
     
-    private var cancellable: AnyCancellable?
+    private var cancellable = Set<AnyCancellable>()
     private var suffixesDict: [String: Int] = [:]
     
     init() {
@@ -41,7 +41,7 @@ class SuffixArrayViewModel: ObservableObject {
     // MARK: - Private
     
     private func getSuffixes() {
-        cancellable = $searchText
+        $searchText
             .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .map({ $0.lowercased() })
             .sink { [weak self] text in
@@ -54,6 +54,7 @@ class SuffixArrayViewModel: ObservableObject {
                 self.sortSuffixes(by: .ASC)
                 self.getTopSuffixes()
             }
+            .store(in: &cancellable)
     }
     
     private func getTopSuffixes() {
