@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		888F8F562C7392A000BE2D2B /* JobQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888F8F552C7392A000BE2D2B /* JobQueue.swift */; };
+		888F8F582C748A5200BE2D2B /* JobScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888F8F572C748A5200BE2D2B /* JobScheduler.swift */; };
 		88C4A9712C526352006B2C56 /* RickAndMortyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C4A9702C526352006B2C56 /* RickAndMortyApp.swift */; };
 		88C4A9732C526352006B2C56 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88C4A9722C526352006B2C56 /* MainTabView.swift */; };
 		88C4A9752C526356006B2C56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88C4A9742C526356006B2C56 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		888F8F552C7392A000BE2D2B /* JobQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobQueue.swift; sourceTree = "<group>"; };
+		888F8F572C748A5200BE2D2B /* JobScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobScheduler.swift; sourceTree = "<group>"; };
 		88C4A96D2C526352006B2C56 /* RickAndMorty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMorty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88C4A9702C526352006B2C56 /* RickAndMortyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyApp.swift; sourceTree = "<group>"; };
 		88C4A9722C526352006B2C56 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 			children = (
 				88C4A9822C53B27B006B2C56 /* Characters.swift */,
 				88C4A9902C6221EA006B2C56 /* SuffixSequence.swift */,
+				888F8F552C7392A000BE2D2B /* JobQueue.swift */,
+				888F8F572C748A5200BE2D2B /* JobScheduler.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -200,8 +206,10 @@
 				88C4A9832C53B27B006B2C56 /* Characters.swift in Sources */,
 				88C4A9712C526352006B2C56 /* RickAndMortyApp.swift in Sources */,
 				88C4A98D2C60F5A5006B2C56 /* SuffixArrayScreen.swift in Sources */,
+				888F8F582C748A5200BE2D2B /* JobScheduler.swift in Sources */,
 				88C4A9912C6221EB006B2C56 /* SuffixSequence.swift in Sources */,
 				88C4A9892C53B7AF006B2C56 /* RickAndMortyViewModel.swift in Sources */,
+				888F8F562C7392A000BE2D2B /* JobQueue.swift in Sources */,
 				88C4A98F2C60F7C6006B2C56 /* SuffixArrayViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

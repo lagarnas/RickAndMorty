@@ -11,7 +11,8 @@ private enum Constants {
     static let placeholder: String = "e.g. \"abracadabra\""
     static let picker: String = "Picker"
     static let allSegment: String = "All suffixes"
-    static let topSegment: String = "Top 10 popular suffixes"
+    static let topSegment: String = "Top 10 suffixes"
+    static let historySegment: String = "History"
     static let ascSortType: String = "ASC"
     static let descSortType: String = "DESC"
 }
@@ -19,6 +20,7 @@ private enum Constants {
 enum SegmentedType {
     case all
     case top
+    case history
 }
 
 struct SuffixArrayScreen: View {
@@ -37,6 +39,7 @@ struct SuffixArrayScreen: View {
             Picker(Constants.picker, selection: $segmentedType) {
                 Text(Constants.allSegment).tag(SegmentedType.all)
                 Text(Constants.topSegment).tag(SegmentedType.top)
+                Text(Constants.historySegment).tag(SegmentedType.history)
             }
             .padding([.leading, .trailing], 16)
             .pickerStyle(.segmented)
@@ -71,8 +74,29 @@ struct SuffixArrayScreen: View {
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
+            case .history:
+                VStack {
+                    List(0..<viewModel.historySuffixes.count, id:\.self) { index in
+                        HStack{
+                            Text(viewModel.historySuffixes[index].key)
+                                .lineLimit(3)
+                                .truncationMode(.middle)
+                            Spacer()
+                            Text("\(viewModel.historySuffixes[index].value) s")
+                        }
+                        .listRowBackground(getRowBackgroundColor(for: index,
+                                                                 maxIndex: viewModel.historySuffixes.count - 1))
+                    }
+                    .listStyle(.plain)
+                }
             }
         }
+    }
+    
+    func getRowBackgroundColor(for index: Int, maxIndex: Int) -> Color {
+        let redColor = Double(index) / Double(maxIndex)
+        let greenColor = 1.0 - redColor
+        return Color(red: redColor, green: greenColor, blue: 0.0)
     }
 }
 

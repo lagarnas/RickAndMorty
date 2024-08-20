@@ -19,9 +19,12 @@ class SuffixArrayViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var allSuffixes: Array<(key: String, value: Int)> = []
     @Published var topSuffixes: Array<(key: String, value: Int)> = []
+    @Published var historySuffixes: Array<(key: String, value: Double)> = []
     
     private var cancellable = Set<AnyCancellable>()
     private var suffixesDict: [String: Int] = [:]
+    private var historySuffixesDict: [String: TimeInterval] = [:]
+    private var jobScheduler = JobScheduler()
     
     init() {
         getSuffixes()
@@ -45,14 +48,28 @@ class SuffixArrayViewModel: ObservableObject {
             .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
             .map({ $0.lowercased() })
             .sink { [weak self] text in
+                guard !text.isEmpty else { return }
                 guard let self else { return }
                 let words = text.split(separator: " ")
-                let suffixArray = words.flatMap{ SuffixSequence(word: String($0)).map { $0 } }
-                self.suffixesDict = suffixArray.reduce(into: [:]) { result, str in
-                    result[str as! String, default: 0] += 1
+                Task { [weak self] in
+                    let startDate = Date()
+                    guard let self = self else { return }
+                    await self.jobScheduler.run(after: 0) {
+                        let suffixArray = words.flatMap{ SuffixSequence(word: String($0)).map { $0 } }
+                        self.suffixesDict = suffixArray.reduce(into: [:]) { result, str in
+                            result[str as! String, default: 0] += 1
+                        }
+                        
+                        await MainActor.run {
+                            self.sortSuffixes(by: .ASC)
+                            self.getTopSuffixes()
+                            
+                            let endDate = Date().timeIntervalSince(startDate)
+                            self.historySuffixesDict[text] = endDate
+                            self.historySuffixes = self.historySuffixesDict.sorted { $0.value < $1.value }
+                        }
+                    }
                 }
-                self.sortSuffixes(by: .ASC)
-                self.getTopSuffixes()
             }
             .store(in: &cancellable)
     }
